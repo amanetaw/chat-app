@@ -32,3 +32,20 @@ if username:
         if msg.strip():
             send_message(username, msg.strip())
             st.rerun()
+import json
+
+# Load original JSON file
+with open("firebase_config.json", "r") as f:
+    config = json.load(f)
+
+# Escape newlines in private_key
+config["private_key"] = config["private_key"].replace("\n", "\\n")
+
+# Wrap the full config in triple quotes
+streamlit_secret = f'FIREBASE_CONFIG = """\n{json.dumps(config, indent=2)}\n"""'
+
+# Save or print result
+with open("streamlit_secret.txt", "w") as f:
+    f.write(streamlit_secret)
+
+print("✅ Streamlit secret prepared: saved to streamlit_secret.txt")
