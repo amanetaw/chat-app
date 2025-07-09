@@ -1,19 +1,17 @@
 import firebase_admin
 from firebase_admin import credentials, db
 from datetime import datetime
+import streamlit as st
 import json
-import os
 
-# Initialize Firebase
 def init_firebase():
     if not firebase_admin._apps:
-        config_str = os.environ.get("FIREBASE_CONFIG")
-        if not config_str:
-            raise ValueError("FIREBASE_CONFIG secret not found. Make sure it's set in Streamlit Cloud.")
-        config = json.loads(config_str)
+        # Load config from st.secrets instead of os.environ
+        config_str = st.secrets["FIREBASE_CONFIG"]
+        config = json.loads(config_str)  # Now guaranteed to work
         cred = credentials.Certificate(config)
         firebase_admin.initialize_app(cred, {
-            'databaseURL': 'https://chat-app-98ede-default-rtdb.firebaseio.com/'  # ⬅️ Replace with your actual Firebase DB URL
+            'databaseURL': 'https://chat-app-98ede-default-rtdb.firebaseio.com/'  # replace if needed
         })
 
 # Send message to database
