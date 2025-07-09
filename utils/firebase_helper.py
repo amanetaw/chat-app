@@ -6,15 +6,13 @@ import json
 
 def init_firebase():
     if not firebase_admin._apps:
-        # Load config from st.secrets instead of os.environ
         config_str = st.secrets["FIREBASE_CONFIG"]
-        config = json.loads(config_str)  # Now guaranteed to work
+        config = json.loads(config_str)
         cred = credentials.Certificate(config)
         firebase_admin.initialize_app(cred, {
-            'databaseURL': 'https://chat-app-98ede-default-rtdb.firebaseio.com/'  # replace if needed
+            'databaseURL': 'https://chat-app-98ede-default-rtdb.firebaseio.com/'  # ✅ replace if different
         })
 
-# Send message to database
 def send_message(user, message):
     ref = db.reference("/messages")
     ref.push({
@@ -23,10 +21,7 @@ def send_message(user, message):
         "timestamp": datetime.utcnow().isoformat()
     })
 
-# Get messages
 def get_messages():
     ref = db.reference("/messages")
     data = ref.order_by_child("timestamp").limit_to_last(100).get()
-    if not data:
-        return []
-    return sorted(data.values(), key=lambda x: x['timestamp'])
+    return sorted(data.values(), key=lambda x: x['timestamp']) if data else []
