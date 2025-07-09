@@ -1,3 +1,7 @@
+from utils.firebase_helper import init_firebase, send_message, get_messages
+init_firebase()
+
+
 import streamlit as st
 from utils.firebase_helper import init_firebase, send_message, get_messages
 
