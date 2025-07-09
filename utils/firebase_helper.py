@@ -13,7 +13,7 @@ def init_firebase():
         config = json.loads(config_str)
         cred = credentials.Certificate(config)
         firebase_admin.initialize_app(cred, {
-            'databaseURL': 'https://console.firebase.google.com/u/0/project/chat-app-98ede/database/chat-app-98ede-default-rtdb/data/~2F'  # ⬅️ Replace with your actual Firebase DB URL
+            'databaseURL': 'https://chat-app-98ede-default-rtdb.firebaseio.com/'  # ⬅️ Replace with your actual Firebase DB URL
         })
 
 # Send message to database
